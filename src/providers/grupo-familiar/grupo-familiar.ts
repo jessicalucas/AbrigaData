@@ -4,65 +4,64 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { DatabaseProvider } from '../database/database';
 
 @Injectable()
-export class PessoaProvider {
+export class GrupoFamiliarProvider {
 
   constructor(private dbProvider: DatabaseProvider) {  }
   
-  public insert(pessoa: Pessoa) {
+  public insert(grupo: GrupoFamiliar) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'insert into Pessoa (nome, nome_social, cpf, data_nascimento, rg) values (?, ?, ?, ?, ?)';
-        let data = [pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];
+        let sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
+        let data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
  
         return db.executeSql(sql, data)
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));
   }
-  
-  public update(pessoa: Pessoa) {
+
+  public update(grupo: GrupoFamiliar) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'update Pessoa set nome = ? nome_social = ? cpf = ? data_nascimento = ?  rg = ? where cd_pessoa = ?';
-        let data = [pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg, pessoa.cd_pessoa];
+        let sql = 'update GrupoFamiliar set cd_pessoa = ? grau_parentesco = ? nome = ? cpf = ? where cd_grupo = ?';
+        let data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf, grupo.cd_grupo];
  
         return db.executeSql(sql, data)
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));
   }
-  
-  public remove(cd_pessoa: number) {
+
+  public remove(cd_grupo: number) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'delete from Pessoa where cd_pessoa = ?';
-        let data = [cd_pessoa];
+        let sql = 'delete from GrupoFamiliar where cd_grupo = ?';
+        let data = [cd_grupo];
  
         return db.executeSql(sql, data)
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));
   }
-  
-  public get(cd_pessoa: number) {
+
+  public get(cd_grupo: number) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'select * from Pessoa where cd_pessoa = ?';
-        let data = [cd_pessoa];
+        let sql = 'select * from GrupoFamiliar where cd_grupo = ?';
+        let data = [cd_grupo];
  
         return db.executeSql(sql, data)
 			.then((data: any) => {
             if (data.rows.length > 0) {
               let item = data.rows.item(0);
-              let pessoa = new Pessoa();
-              pessoa.cd_pessoa = item.cd_pessoa;
-              pessoa.nome = item.nome;
-              pessoa.nome_social = item.nome_social;
-              pessoa.cpf = item.cpf;
-              pessoa.data_nascimento = item.data_nascimento;
-              pessoa.rg = item.rg;
+              let grupo = new GrupoFamiliar();
+              grupo.cd_grupo = item.cd_grupo;
+              grupo.cd_pessoa = item.cd_pessoa;
+              grupo.nome = item.nome;
+              grupo.grau_parentesco = item.grau_parentesco;
+              grupo.cpf = item.cpf;
  
-              return pessoa;
+              return grupo;
             }
 			return null;
 			})
@@ -71,21 +70,21 @@ export class PessoaProvider {
       .catch((e) => console.error(e));
   }
   
-  public getAll(nome: string = null) {
+  public getAll(cd_pessoa: number) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'SELECT * FROM Pessoa where nome like ?';
-        let data = ['%' + nome + '%']
+        let sql = 'SELECT * FROM GrupoFamiliar where cd_pessoa = ?';
+        let data = [cd_pessoa]
  
         return db.executeSql(sql, data)
           .then((data: any) => {
             if (data.rows.length > 0) {
-              let pessoas: any[] = [];
+              let grupo: any[] = [];
               for (var i = 0; i < data.rows.length; i++) {
-                var pessoa = data.rows.item(i);
-                pessoas.push(pessoa);
+                var integrante = data.rows.item(i);
+                grupo.push(integrante);
               }
-              return pessoas;
+              return grupo;
             } else {
               return [];
             }
@@ -94,14 +93,13 @@ export class PessoaProvider {
       })
       .catch((e) => console.error(e));
   }
-
 }
 
-export class Pessoa {
+
+export class GrupoFamiliar {
+  cd_grupo: number;
   cd_pessoa: number;
+  grau_parentesco: string;
   nome: string;
-  nome_social: string;
   cpf: string;
-  data_nascimento: Date;
-  rg: string;
 }

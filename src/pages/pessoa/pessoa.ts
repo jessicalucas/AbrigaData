@@ -19,10 +19,11 @@ export class PessoaPage {
 	constructor(public navCtrl: NavController, private toast: ToastController, private pessoaProvider: PessoaProvider) { }
 
 	ionViewDidEnter() {
-		this.getAllPessoas();
+		this.getAllPessoas(null);
 	}
 
-	getAllPessoas() {
+	getAllPessoas(ev: any) {
+		this.searchText = ev;
 		this.pessoaProvider.getAll(this.searchText)
 		  .then((result: any[]) => {
 			this.pessoas = result;
@@ -33,9 +34,9 @@ export class PessoaPage {
 		this.navCtrl.push('CadastroPessoaPage');
     }
 
-    editPessoa(cd_pessoa: number) {
+  editPessoa(cd_pessoa: number) {
 		this.navCtrl.push('CadastroPessoaPage', { cd_pessoa: cd_pessoa });
-    }
+  }
 	
 	removePessoa(pessoa: Pessoa) {
 		this.pessoaProvider.remove(pessoa.cd_pessoa)
@@ -48,7 +49,7 @@ export class PessoaPage {
 	}
 	
 	filterPessoas(ev: any) {
-		this.getAllPessoas();
+		this.getAllPessoas(ev);
 	}
 
 }

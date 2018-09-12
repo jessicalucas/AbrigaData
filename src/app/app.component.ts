@@ -22,6 +22,7 @@ export class MyApp {
         .then(() => {
           // fechando a SplashScreen somente quando o banco for criado
           this.openHomePage(splashScreen);
+          console.log('Banco de dados criado com sucesso.')
         })
 		// ou se houver erro na criação do banco
         .catch(e => console.error('Erro de banco de dados, reinicie a aplicação', e));

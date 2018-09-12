@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      AbrigaData
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <p>Atendente</p>
+
+  <ion-item-sliding *ngFor="let atendente of atendentes">
+ 
+      <h1>{{ atendente.nome }}</h1>
+      <h2>{{ atendente.login }}</h2>
+      <h2>{{ atendente.senha }}</h2>
+    
+
+  </ion-item-sliding>
+      
+
+</ion-content>

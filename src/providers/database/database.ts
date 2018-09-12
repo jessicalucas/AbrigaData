@@ -32,21 +32,21 @@ export class DatabaseProvider {
 	private createTables(db: SQLiteObject) {
     // Criando as tabelas
 		db.sqlBatch([
-		  ['create table Localizacao (cd_localizacao interger primary key autoincrement not null, Logradouro text,Numero interger,Complemento text,Bairro text,CEP text,Municipio text,Estado text)'],
+		  ['create table Localizacao (cd_localizacao interger primary key, Logradouro text,Numero interger,Complemento text,Bairro text,CEP text,Municipio text,Estado text)'],
 		  
-		  ['create table Pessoa (cd_pessoa interger primary key autoincrement not null,cd_localizacao interger,Nome text,Nome_Social text,CPF text,Data_Nascimento text,RG text,foreign key (cd_localizacao) references Localizacao(cd_localizacao));'],
+		  ['create table Pessoa (cd_pessoa interger primary key,cd_localizacao interger,Nome text,Nome_Social text,CPF text,Data_Nascimento text,RG text,foreign key (cd_localizacao) references Localizacao(cd_localizacao));'],
 		  
-		  ['create table Atendente(cd_atendente interger primary key autoincrement not null,Nome text,Login text,Senha text);'],
+		  ['create table Atendente(cd_atendente interger primary key,Nome text,Login text,Senha text);'],
 		  
-		  ['create table Grupo_Familiar (cd_grupo interger primary key autoincrement not null,cd_pessoa interger,Grau_Parentesco text,Nome text,CPF text,foreign key (cd_pessoa) references Pessoa (cd_pessoa));'],
+		  ['create table Grupo_Familiar (cd_grupo interger primary key,cd_pessoa interger,Grau_Parentesco text,Nome text,CPF text,foreign key (cd_pessoa) references Pessoa (cd_pessoa));'],
 		  
-		  ['create table Atendimento (cd_atendimento interger primary key autoincrement not null,cd_localizacao interger,cd_pessoa interger,cd_atendente interger,Data_Realizacao text,Hora_Inicial text,Hora_Final text,foreign key (cd_localizacao) references Localizacao (cd_localizacao),foreign key (cd_pessoa) references Pessoa (cd_pessoa),foreign key (cd_atendente) references Atendente(cd_atendente));'],
+		  ['create table Atendimento (cd_atendimento interger primary key,cd_localizacao interger,cd_pessoa interger,cd_atendente interger,Data_Realizacao text,Hora_Inicial text,Hora_Final text,foreign key (cd_localizacao) references Localizacao (cd_localizacao),foreign key (cd_pessoa) references Pessoa (cd_pessoa),foreign key (cd_atendente) references Atendente(cd_atendente));'],
 		  
-		  ['create table Relatorio (cd_relatorio interger primary key autoincrement not null,Descricao text,Tipo_Dado text,Valor_Numerico real,Valor_Bool interger,Campo_Texto text);'],
+		  ['create table Relatorio (cd_relatorio interger primary key,Descricao text,Tipo_Dado text,Valor_Numerico real,Valor_Bool interger,Campo_Texto text);'],
 		  
-		  ['create table Relatorio_Atendimento (cd_relatorio_atendimento interger primary key autoincrement not null,cd_relatorio interger,cd_atendimento interger,foreign key (cd_relatorio) references Relatorio (cd_relatorio),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
+		  ['create table Relatorio_Atendimento (cd_relatorio_atendimento interger primary key,cd_relatorio interger,cd_atendimento interger,foreign key (cd_relatorio) references Relatorio (cd_relatorio),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
 		  
-		  ['create table Agenda (cd_agenda interger primary key autoincrement not null,cd_atendente interger,cd_atendimento interger,Data_Abertura text,Data_Fechamento text,foreign key (cd_atendente) references Atendente(cd_atendente),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
+		  ['create table Agenda (cd_agenda interger primary key,cd_atendente interger,cd_atendimento interger,Data_Abertura text,Data_Fechamento text,foreign key (cd_atendente) references Atendente(cd_atendente),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
 		])
 		  .then(() => console.log('Tabelas criadas'))
 		  .catch(e => console.error('Erro ao criar as tabelas', e));

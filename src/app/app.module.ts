@@ -11,6 +11,8 @@ import { SQLite } from '@ionic-native/sqlite'
 import { DatabaseProvider } from '../providers/database/database';
 import { AbrigadataProvider } from '../providers/abrigadata/abrigadata';
 import { PessoaProvider } from '../providers/pessoa/pessoa';
+import { GrupoFamiliarProvider } from '../providers/grupo-familiar/grupo-familiar';
+import { AtendenteProvider } from '../providers/atendente/atendente';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,13 @@ import { PessoaProvider } from '../providers/pessoa/pessoa';
   providers: [
     StatusBar,
     SplashScreen,
-	//{provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-	SQLite,
+	  SQLite,
     DatabaseProvider,
     AbrigadataProvider,
-    PessoaProvider
+    PessoaProvider,
+    GrupoFamiliarProvider,
+    AtendenteProvider
   ]
 })
 export class AppModule {}

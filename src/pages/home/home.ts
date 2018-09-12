@@ -32,8 +32,8 @@ export class HomePage {
 		this.navCtrl.push('GrupoFamiliarPage');
     }
 	
-	reportaErro() {
-		this.navCtrl.push('ReportaErroPage');
+	configuracao() {
+		this.navCtrl.push('ConfiguracaoPage');
     }
 
     
