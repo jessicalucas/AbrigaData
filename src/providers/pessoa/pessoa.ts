@@ -9,12 +9,25 @@ export class PessoaProvider {
   constructor(private dbProvider: DatabaseProvider) {  }
   
   public insert(pessoa: Pessoa) {
+    let sql;
+    let data;
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'insert into Pessoa (nome, nome_social, cpf, data_nascimento, rg) values (?, ?, ?, ?, ?)';
-        let data = [pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];
- 
+
+        db.executeSql('select max(id) max from Pessoa')
+        .then((saida: any) =>{
+          
+          if (saida.rows.item(0).max == null) {
+            sql = 'insert into Pessoa (cd_pessoa,nome, nome_social, cpf, data_nascimento, rg) values (?, ?, ?, ?, ?, ?)';
+            data = [1, pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];
+          }
+          else {
+            sql = 'insert into Pessoa (cd_pessoa,nome, nome_social, cpf, data_nascimento, rg) values (?, ?, ?, ?, ?, ?)';
+            data = [saida.rows.item(0).max+1,pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];}
+        })
+
         return db.executeSql(sql, data)
+          .then((a: any) => console.log("Dados de pessoa inseridos"))
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));

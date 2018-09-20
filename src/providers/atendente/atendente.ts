@@ -44,7 +44,7 @@ export class AtendenteProvider {
       .catch((e) => console.error(e));
   }
   
-  public get(cd_atendente: number) {
+  public getAtendente(cd_atendente: number) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
         let sql = 'select * from Atendente where cd_atendente = ?';

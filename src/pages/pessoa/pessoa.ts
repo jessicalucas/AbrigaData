@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa'
-
+import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
 
 
 @IonicPage()
@@ -19,11 +18,10 @@ export class PessoaPage {
 	constructor(public navCtrl: NavController, private toast: ToastController, private pessoaProvider: PessoaProvider) { }
 
 	ionViewDidEnter() {
-		this.getAllPessoas(null);
+		this.getAllPessoas();
 	}
 
-	getAllPessoas(ev: any) {
-		this.searchText = ev;
+	getAllPessoas() {
 		this.pessoaProvider.getAll(this.searchText)
 		  .then((result: any[]) => {
 			this.pessoas = result;
@@ -49,7 +47,7 @@ export class PessoaPage {
 	}
 	
 	filterPessoas(ev: any) {
-		this.getAllPessoas(ev);
+		this.getAllPessoas();
 	}
 
 }

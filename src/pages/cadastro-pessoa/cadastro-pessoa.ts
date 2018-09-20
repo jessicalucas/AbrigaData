@@ -29,7 +29,7 @@ export class CadastroPessoaPage {
     console.log('ionViewDidLoad CadastroPessoaPage');
   }
   
-  save() {
+  save() { 
     this.savePessoa()
       .then(() => {
         this.toast.create({ message: 'Cadastro salvo.', duration: 3000, position: 'botton' }).present();
@@ -41,11 +41,11 @@ export class CadastroPessoaPage {
   }
  
   private savePessoa() {
-    if (this.model.cd_pessoa) {
+    /*if (this.model.nome) {
       return this.pessoaProvider.update(this.model);
-    } else {
+    } else {*/
       return this.pessoaProvider.insert(this.model);
-    }
+    //}
   }
 
 }
