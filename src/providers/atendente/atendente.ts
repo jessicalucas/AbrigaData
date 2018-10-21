@@ -9,7 +9,7 @@ export class AtendenteProvider {
   constructor(private dbProvider: DatabaseProvider) {  }
   
   public insert(atendente: Atendente) {
-    return this.dbProvider.getDB()
+    return this.dbProvider.getDB() 
       .then((db: SQLiteObject) => {
         let sql = 'insert into Atendente (nome, login, senha) values (?, ?, ?)';
         let data = [atendente.nome, atendente.login, atendente.senha];
@@ -72,21 +72,13 @@ export class AtendenteProvider {
   public getLogin(login: string = null) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'SELECT * FROM Atendente where login = ?';
+        let sql = 'SELECT * FROM Atendente where login = ? limit 1';
         let data = [login]
  
         return db.executeSql(sql, data)
           .then((data: any) => {
-            if (data.rows.length > 0) {
-              let atendentes: any[] = [];
-              for (var i = 0; i < data.rows.length; i++) {
-                var atendente = data.rows.item(i);
-                atendentes.push(atendente);
-              }
+            let atendentes: any;
               return atendentes;
-            } else {
-              return [];
-            }
           })
           .catch((e) => console.error(e));
       })
@@ -115,7 +107,6 @@ export class AtendenteProvider {
       })
       .catch((e) => console.error(e));
   }
-
 }
 
 export class Atendente {

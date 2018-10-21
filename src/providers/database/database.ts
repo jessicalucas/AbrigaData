@@ -32,23 +32,52 @@ export class DatabaseProvider {
   
 	private createTables(db: SQLiteObject) {
     // Criando as tabelas
-		db.sqlBatch([
-		  ['create table IF NOT EXISTS Localizacao (cd_localizacao interger primary key, Logradouro text,Numero interger,Complemento text,Bairro text,CEP text,Municipio text,Estado text)'],
-		  
-		  ['create table IF NOT EXISTS Pessoa (cd_pessoa interger primary key,cd_localizacao interger,Nome text,Nome_Social text,CPF text,Data_Nascimento text,RG text,foreign key (cd_localizacao) references Localizacao(cd_localizacao));'],
-		  
-		  ['create table IF NOT EXISTS Atendente(cd_atendente interger primary key,Nome text,Login text,Senha text);'],
-		  
-		  ['create table IF NOT EXISTS Grupo_Familiar (cd_grupo interger primary key,cd_pessoa interger,Grau_Parentesco text,Nome text,CPF text,foreign key (cd_pessoa) references Pessoa (cd_pessoa));'],
-		  
-		  ['create table IF NOT EXISTS Atendimento (cd_atendimento interger primary key,cd_localizacao interger,cd_pessoa interger,cd_atendente interger,Data_Realizacao text,Hora_Inicial text,Hora_Final text,foreign key (cd_localizacao) references Localizacao (cd_localizacao),foreign key (cd_pessoa) references Pessoa (cd_pessoa),foreign key (cd_atendente) references Atendente(cd_atendente));'],
-		  
-		  ['create table IF NOT EXISTS Relatorio (cd_relatorio interger primary key,Descricao text,Tipo_Dado text,Valor_Numerico real,Valor_Bool interger,Campo_Texto text);'],
-		  
-		  ['create table IF NOT EXISTS Relatorio_Atendimento (cd_relatorio_atendimento interger primary key,cd_relatorio interger,cd_atendimento interger,foreign key (cd_relatorio) references Relatorio (cd_relatorio),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
-		  
-		  ['create table IF NOT EXISTS Agenda (cd_agenda interger primary key,cd_atendente interger,cd_atendimento interger,Data_Abertura text,Data_Fechamento text,foreign key (cd_atendente) references Atendente(cd_atendente),foreign key (cd_atendimento) references Atendimento (cd_atendimento));'],
-		])
+		db.sqlBatch
+		([
+					["create table IF NOT EXISTS Localizacao "+
+					 "(cd_localizacao interger primary key, Nome text, Logradouro text,Numero interger,"+
+					 "Complemento text,Bairro text,CEP text,Municipio text,Estado text, Mapa text)"],
+					
+					["create table IF NOT EXISTS Pessoa "+
+					 "(cd_pessoa interger primary key,cd_localizacao interger,Nome text,Nome_Social text,"+
+					 "CPF text,Data_Nascimento text,RG text,"+
+					 "foreign key (cd_localizacao) references Localizacao(cd_localizacao));"],
+					
+					["create table IF NOT EXISTS Atendente "+
+					 "(cd_atendente interger primary key,Nome text,Login text,Senha text);"],
+					
+					["create table IF NOT EXISTS Grupo_Familiar "+
+					 "(cd_grupo interger primary key,cd_pessoa interger,Grau_Parentesco text,Nome text,CPF text,"+
+					 "foreign key (cd_pessoa) references Pessoa (cd_pessoa));"],
+					
+					["create table IF NOT EXISTS Atendimento "+
+					 "(cd_atendimento interger primary key,cd_localizacao interger,cd_pessoa interger,"+
+					 "cd_atendente interger, cd_agenda interger, Data_Realizacao text,Hora_Inicial text,"+
+					 "Hora_Final text,"+
+					 "tempo_rua_qtd interger,"+
+					 "tempo_rua_tipo text,"+
+					 "tipo_local_pernoite text,"+
+					 "idc_trabalho_carteira text,"+
+					 "tempo_trabalho_carteira_qtd interger,"+
+					 "tempo_trabalho_carteira_tipo text,"+
+					 "idc_trabalha_atualmente text,"+
+					 "desc_trabalho text,"+
+					 "renda_atual text,"+
+					 "gasto_renda text,"+
+					 "municipio_origem text,"+
+					 "tempo_resid_atual_qtd interger ,"+
+					 "tempo_resid_atual_tipo text,"+
+					 "foreign key (cd_localizacao) references Localizacao (cd_localizacao),"+
+					 "foreign key (cd_pessoa) references Pessoa (cd_pessoa),"+
+					 "foreign key (cd_atendente) references Atendente(cd_atendente),"+
+					 "foreign key (cd_agenda) references Agenda(cd_agenda));"],
+								
+					["create table IF NOT EXISTS Agenda "+
+					 "(cd_agenda interger primary key,cd_atendente interger,"+
+					 "Data_Abertura text,Data_Fechamento text,"+
+					 "foreign key (cd_atendente) references Atendente(cd_atendente),"+
+					 "foreign key (cd_atendimento) references Atendimento (cd_atendimento));"],
+				])
 		  .then(() => console.log('Tabelas criadas'))
 		  .catch(e => console.error('Erro ao criar as tabelas', e));
 	}

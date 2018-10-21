@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title> 
+        Atendimento
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+   
+  <ion-content padding>
+    
+    <p>Busca pessoa cadastrada:</p>
+    <ion-searchbar (ionInput)="filterPessoas($event)" [(ngModel)]="searchText"></ion-searchbar>
+  
+    <h1>Lista de pessoas cadastradas:</h1>
+    <p>Clique para inserir novo membro no grupo familiar</p>
+    <ion-list>
+      <ion-item-sliding *ngFor="let pessoa of pessoas">
+   
+        <button ion-item (click)="addAtendimento(pessoa.cd_pessoa)">
+          <h1>{{ pessoa.nome }}</h1>
+          <h2>{{ pessoa.nome_social }}</h2>
+          <h2>{{ pessoa.cpf }}</h2>
+          <h2>{{ pessoa.data_nascimento | date:'dd/MM/yyyy' }}</h2>
+          <h2>{{ pessoa.rg }}</h2>
+        </button>
+   
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab right bottom>
+      <button ion-fab color="light" (click)="addAtendimentoaux()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+    
+    <ion-footer>
+    <ion-toolbar>
+      <p>© 2020 AbrigaData</p>
+    </ion-toolbar>
+  </ion-footer>
+  
+  </ion-content>
+  

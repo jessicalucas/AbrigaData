@@ -34,6 +34,14 @@ export class MenuPage {
 	
 	cadastroGrupoFamiliar() {
 		this.navCtrl.push('GrupoFamiliarPage');
+	}
+	
+	cadastroAgenda() {
+		this.navCtrl.push('AgendaPage');
+	}
+	
+	cadastroMapa() {
+		this.navCtrl.push('MapaPage');
   }
 	
 	configuracao() {

@@ -16,12 +16,11 @@ export class HomePage {
 		}
 
 	ionViewDidEnter() {
-    console.log('ionViewDidLoad HomePage');
+		console.log('ionViewDidLoad HomePage');
 	}
 	
 	Menu() {
 		this.navCtrl.push('MenuPage');
-		this.getAdmin();
 	}
 	
 	getAdmin() {

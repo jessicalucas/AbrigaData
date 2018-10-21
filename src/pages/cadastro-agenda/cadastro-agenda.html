@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      AbrigaData 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<ion-list>
+  
+  <ion-item>
+    <ion-label stacked>Data de Abeertura</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" name="dat_abertura" min="2018" [(ngModel)]="model.dat_abertura"></ion-datetime>
+  </ion-item>
+ 
+  <ion-item>
+    <ion-label stacked>Data de Fechamento</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" name="dat_fechamento" min="2018" [(ngModel)]="model.dat_fechamento"></ion-datetime>
+  </ion-item>
+	
+	<ion-item>
+      <ion-label stacked>Responsável</ion-label>
+      <ion-input type="text" name="cd_atendente" [(ngModel)]="model.cd_atendente"></ion-input>
+  </ion-item>  
+ 
+  </ion-list>
+ 
+  <button ion-button block (click)="save()">Salvar</button>
+ 
+
+  <ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+</ion-content>

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title> 
+      Mapa de locais de atendimento
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <h1>Locais de atendimento</h1>
+
+  <ion-card *ngFor="let locaisvisita of localvisita">
+    <div class="mapa">
+      <img src="{{ localvisita.mapa }}">
+    </div>
+    <ion-item>
+      <h2 text-wrap>{{ localvisita.nome }}</h2>
+    </ion-item>
+  </ion-card>
+   
+<ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+
+</ion-content>
