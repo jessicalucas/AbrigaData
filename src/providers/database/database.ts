@@ -20,6 +20,7 @@ export class DatabaseProvider {
     return this.getDB()
       .then((db: SQLiteObject) => {
  
+				this.dropTables(db);
         // Criando as tabelas
 				this.createTables(db);
  
@@ -29,7 +30,18 @@ export class DatabaseProvider {
       })
 			.catch(e => console.log(e));
 	}
-  
+	
+	private dropTables(db: SQLiteObject){
+		db.sqlBatch([["DROP TABLE IF EXISTS Localizacao"],
+								["DROP TABLE IF EXISTS Pessoa"],
+								["DROP TABLE IF EXISTS Atendente"],
+								["DROP TABLE IF EXISTS GrupoFamiliar"],
+								["DROP TABLE IF EXISTS Atendimento"],
+								["DROP TABLE IF EXISTS Agenda"]])
+		.then(() => console.log('Tabelas dropadas'))
+		.catch(e => console.error('Erro ao dropar as tabelas', e));
+	}
+
 	private createTables(db: SQLiteObject) {
     // Criando as tabelas
 		db.sqlBatch
@@ -46,7 +58,7 @@ export class DatabaseProvider {
 					["create table IF NOT EXISTS Atendente "+
 					 "(cd_atendente interger primary key,Nome text,Login text,Senha text);"],
 					
-					["create table IF NOT EXISTS Grupo_Familiar "+
+					["create table IF NOT EXISTS GrupoFamiliar "+
 					 "(cd_grupo interger primary key,cd_pessoa interger,Grau_Parentesco text,Nome text,CPF text,"+
 					 "foreign key (cd_pessoa) references Pessoa (cd_pessoa));"],
 					
@@ -73,7 +85,7 @@ export class DatabaseProvider {
 					 "foreign key (cd_agenda) references Agenda(cd_agenda));"],
 								
 					["create table IF NOT EXISTS Agenda "+
-					 "(cd_agenda interger primary key,cd_atendente interger,"+
+					 "(cd_agenda interger primary key,cd_atendente interger, cd_atendimento interger,"+
 					 "Data_Abertura text,Data_Fechamento text,"+
 					 "foreign key (cd_atendente) references Atendente(cd_atendente),"+
 					 "foreign key (cd_atendimento) references Atendimento (cd_atendimento));"],
@@ -90,7 +102,8 @@ export class DatabaseProvider {
 	 
 			// Criando as tabelas
 			db.sqlBatch([
-			  ['insert into Atendente values (?,?,?,?)', [1, 'Administrador', 'admin','admin']]
+				[['insert into Atendente values (?,?,?,?)'], [1, 'Administrador', 'admin','admin']],
+				[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[1,'barbara','barbara','36784264','1993-06-19','723918']]
 			])
 			  .then(() => console.log('Dados padrões incluídos'))
 			  .catch(e => console.error('Erro ao incluir dados padrões', e));

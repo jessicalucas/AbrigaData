@@ -35,6 +35,10 @@ export class MenuPage {
 	cadastroGrupoFamiliar() {
 		this.navCtrl.push('GrupoFamiliarPage');
 	}
+
+	cadastroAtendimento() {
+		this.navCtrl.push('AtendimentoPage');
+	}
 	
 	cadastroAgenda() {
 		this.navCtrl.push('AgendaPage');

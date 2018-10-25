@@ -9,12 +9,12 @@ export class PessoaProvider {
   constructor(private dbProvider: DatabaseProvider) {  }
   
   public insert(pessoa: Pessoa) {
-    let sql;
-    let data;
+    var sql;
+    var data;
     return this.dbProvider.getDB()
-      .then((db: SQLiteObject) => {
+    .then((db: SQLiteObject) => {
 
-        db.executeSql('select max(id) max from Pessoa')
+        db.executeSql('select max(cd_pessoa) max from Pessoa', null)
         .then((saida: any) =>{
           
           if (saida.rows.item(0).max == null) {
@@ -23,12 +23,16 @@ export class PessoaProvider {
           }
           else {
             sql = 'insert into Pessoa (cd_pessoa,nome, nome_social, cpf, data_nascimento, rg) values (?, ?, ?, ?, ?, ?)';
-            data = [saida.rows.item(0).max+1,pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];}
-        })
+            data = [saida.rows.item(0).max+1,pessoa.nome, pessoa.nome_social, pessoa.cpf, pessoa.data_nascimento, pessoa.rg];
+          }
 
-        return db.executeSql(sql, data)
-          .then((a: any) => console.log("Dados de pessoa inseridos"))
-          .catch((e) => console.error(e));
+          console.log(sql);
+          return db.executeSql(sql, data)
+            .then((a: any) => console.log("Dados de pessoa inseridos"))
+            .catch((e) => console.error(e));
+        })
+        .catch((e) => console.error(e));
+      
       })
       .catch((e) => console.error(e));
   }
@@ -85,18 +89,23 @@ export class PessoaProvider {
   }
   
   public getAll(nome: string = null) {
+    console.log("Entrou getAll");
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
         let sql = 'SELECT * FROM Pessoa where nome like ?';
-        let data = ['%' + nome + '%']
+        let data = ['%' + nome + '%'];
+
+        console.log(sql);
  
         return db.executeSql(sql, data)
           .then((data: any) => {
+            console.log(data.rows.length);
             if (data.rows.length > 0) {
               let pessoas: any[] = [];
               for (var i = 0; i < data.rows.length; i++) {
                 var pessoa = data.rows.item(i);
                 pessoas.push(pessoa);
+                console.log(data.rows.item(i).nome);
               }
               return pessoas;
             } else {

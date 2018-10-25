@@ -15,6 +15,7 @@ export class AtendenteProvider {
         let data = [atendente.nome, atendente.login, atendente.senha];
  
         return db.executeSql(sql, data)
+          .then((a: any) => console.log("Cadastro de atendente inserido"))
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));

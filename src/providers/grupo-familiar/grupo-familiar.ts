@@ -11,11 +11,25 @@ export class GrupoFamiliarProvider {
   public insert(grupo: GrupoFamiliar) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
-        let data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
- 
-        return db.executeSql(sql, data)
-          .catch((e) => console.error(e));
+
+        let data;
+        let sql;
+        db.executeSql('select max(cd_grupo) max from GrupoFamiliar', null)
+        .then((saida: any) =>{
+          
+          if (saida.rows.item(0).max == null) {
+            sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
+            data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
+          }
+          else {
+            sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
+            data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
+          }
+        
+          return db.executeSql(sql, data)
+            .then((a:any) => console.log("Grupo Familiar inserido"))
+            .catch((e) => console.error(e));
+          })
       })
       .catch((e) => console.error(e));
   }

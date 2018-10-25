@@ -34,7 +34,7 @@ export class AtendimentoPage {
 			this.pessoas = result;
 		  });
   }
-
+ 
   getAllAgendas(){
     this.agendaProvider.getAll(this.modelAgenda.dat_abertura)
     .then((result: any[]) => {

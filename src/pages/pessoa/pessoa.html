@@ -1,14 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      AbrigaData
+      Pessoa
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
- <ion-searchbar (ionInput)="filterPessoas($event)" [(ngModel)]="searchText"></ion-searchbar>
+  <ion-searchbar (ionInput)="filterPessoas($event)" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list>
     <ion-item-sliding *ngFor="let pessoa of pessoas">
  
@@ -16,8 +16,6 @@
         <h1>{{ pessoa.nome }}</h1>
         <h2>{{ pessoa.nome_social }}</h2>
         <h2>{{ pessoa.cpf }}</h2>
-        <h2>{{ pessoa.data_nascimento | date:'dd/MM/yyyy' }}</h2>
-        <h2>{{ pessoa.rg }}</h2>
       </button>
  
       <ion-item-options side="left">
@@ -32,7 +30,7 @@
   <ion-fab right bottom>
     <button ion-fab color="light" (click)="addPessoa()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
- 
+  
  
   <ion-footer>
   <ion-toolbar>

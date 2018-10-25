@@ -14,7 +14,7 @@ export class LocalizacaoProvider {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
 
-        db.executeSql('select max(id) max from Localizacao')
+        db.executeSql('select max(cd_localizacao) max from Localizacao')
         .then((saida: any) =>{
           
           if (saida.rows.item(0).max == null) {
@@ -27,11 +27,11 @@ export class LocalizacaoProvider {
             data = [localizacao.cd_localizacao+1, localizacao.nome, localizacao.logradouro, localizacao.numero, localizacao.complemento, 
               localizacao.bairro, localizacao.cep, localizacao.municipio, localizacao.estado, localizacao.mapa];
           }
-        })
 
-        return db.executeSql(sql, data)
+          return db.executeSql(sql, data)
           .then((a: any) => console.log("Dados de localização inseridos"))
           .catch((e) => console.error(e));
+        })
       })
       .catch((e) => console.error(e));
   }

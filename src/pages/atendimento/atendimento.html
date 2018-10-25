@@ -12,7 +12,6 @@
     <ion-searchbar (ionInput)="filterPessoas($event)" [(ngModel)]="searchText"></ion-searchbar>
   
     <h1>Lista de pessoas cadastradas:</h1>
-    <p>Clique para inserir novo membro no grupo familiar</p>
     <ion-list>
       <ion-item-sliding *ngFor="let pessoa of pessoas">
    

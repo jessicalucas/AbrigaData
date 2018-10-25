@@ -15,7 +15,8 @@ export class MapaPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MapaPage');
+    console.log("Entrou Mapa");
+    //this.visitas.getVisitas();
   }
 
   getVisitas() {

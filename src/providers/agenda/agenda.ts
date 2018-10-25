@@ -15,7 +15,7 @@ export class AgendaProvider {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
 
-        db.executeSql('select max(id) max from Agenda')
+        db.executeSql('select max(cd_agenda) max from Agenda', null)
         .then((saida: any) =>{
           
           if (saida.rows.item(0).max == null) {
@@ -24,12 +24,13 @@ export class AgendaProvider {
           }
           else {
             sql = 'insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente) values (?, ?, ?, ?)';
-            data = [saida.rows.item(0).max+1,agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente];}
-        })
+            data = [saida.rows.item(0).max+1,agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente];
+          }
 
-        return db.executeSql(sql, data)
+          return db.executeSql(sql, data)
           .then((a: any) => console.log("Dados da agenda inseridos"))
           .catch((e) => console.error(e));
+        })
       })
       .catch((e) => console.error(e));
   }
@@ -65,7 +66,7 @@ export class AgendaProvider {
         let data = [cd_agenda];
  
         return db.executeSql(sql, data)
-			.then((data: any) => {
+			  .then((data: any) => {
             if (data.rows.length > 0) {
               let item = data.rows.item(0);
               let agenda = new Agenda();

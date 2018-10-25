@@ -8,7 +8,8 @@ import { AtendenteProvider, Atendente } from '../../providers/atendente/atendent
   templateUrl: 'cadastro-atendente.html',
 })
 export class CadastroAtendentePage {
-	model: Atendente;
+  model: Atendente;
+  senha: string;
  
   constructor(
     public navCtrl: NavController, public navParams: NavParams,
@@ -30,22 +31,38 @@ export class CadastroAtendentePage {
   }
   
   save() { 
-    this.saveAtendente()
-      .then(() => {
-        this.toast.create({ message: 'Cadastro salvo.', duration: 3000, position: 'botton' }).present();
-        this.navCtrl.pop();
-      })
-      .catch(() => {
-        this.toast.create({ message: 'Erro ao salvar o cadastro.', duration: 3000, position: 'botton' }).present();
+    if (this.validaSenha()){
+      this.saveAtendente()
+        .then(() => {
+          this.toast.create({ message: 'Cadastro salvo.', duration: 3000, position: 'botton' }).present();
+          this.navCtrl.pop();
+        })
+        .catch(() => {
+          this.toast.create({ message: 'Erro ao salvar o cadastro.', duration: 3000, position: 'botton' }).present();
+          this.navCtrl.pop();
       });
+    }
+    else {
+      this.toast.create({ message: 'As senhas são diferentes.', duration: 3000, position: 'center' }).present();
+      this.navCtrl.pop();
+    }
+  }
+
+  private validaSenha() {
+    if (this.senha == this.model.senha){
+      return true;
+    }
+    return false;
   }
  
   private saveAtendente() {
-    /*if (this.model.nome) {
-      return this.pessoaProvider.update(this.model);
-    } else {*/
-      return this.atendenteProvider.insert(this.model);
-    //}
+    
+      if (this.model.cd_atendente) {
+        return this.atendenteProvider.update(this.model);
+      } else {
+        return this.atendenteProvider.insert(this.model);
+      }
+    
   }
 
 }

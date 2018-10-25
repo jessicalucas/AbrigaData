@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
 
 
-@IonicPage()
+@IonicPage() 
 @Component({
   selector: 'page-pessoa',
   templateUrl: 'pessoa.html',
