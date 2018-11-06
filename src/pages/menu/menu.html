@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title> 
+      AbrigaData
+    </ion-title>
+  </ion-navbar> 
+</ion-header>
+ 
+<ion-content padding>
+  
+  <button ion-button full (click)="cadastroPessoa()">Pessoa</button>
+  <button ion-button full (click)="cadastroGrupoFamiliar()">Grupo Familiar</button>
+  <button ion-button full (click)="cadastroAgenda()">Agenda</button>
+  <button ion-button full (click)="cadastroAtendimento()">Atendimento</button>
+  <button ion-button full (click)="cadastroMapa()">Mapas</button>
+  <button ion-button full>Relatórios</button>
+
+  <ion-fab right bottom>
+    <button ion-fab color="light" (click)="configuracao()"><ion-icon name="cog"></ion-icon></button>
+    <button ion-fab color="light" (click)="sair()"><ion-icon name="log-out"></ion-icon></button>
+  </ion-fab>
+  
+  <ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+
+</ion-content>

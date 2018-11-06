@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Cadastro de atendimento 
+    </ion-title>
+  </ion-navbar> 
+</ion-header>
+
+<ion-content padding>
+<ion-list>
+  
+  <p>Dados do atendimento</p>
+  <ion-item>
+    <ion-label stacked>Data de realização</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" name="data_realizacao" min="2018" 
+    [(ngModel)]="model.data_realizacao"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>hora inicial</ion-label>
+    <ion-datetime displayFormat="HH:MM" name="data_realizacao"  
+    [(ngModel)]="model.hora_inicial"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>hora final</ion-label>
+    <ion-datetime displayFormat="HH:MM" name="data_final"  
+    [(ngModel)]="model.hora_final"></ion-datetime>
+  </ion-item>
+
+  <p>Localização do indivíduo</p>
+  <ion-item>
+    <ion-label stacked>Tempo em situação de rua</ion-label>
+    <ion-input type="number" name="tempo_atendimento" [(ngModel)]="model.cpf"></ion-input>
+  </ion-item>
+   
+  <ion-item>
+    <ion-label stacked>Local em que costuma pernoitar</ion-label>
+    <ion-input type="text" name="tipo_local_pernoite" 
+    [(ngModel)]="model.tipo_local_pernoite"></ion-input>
+  </ion-item>
+  
+  <p>Trabalho</p>
+  <ion-item>
+    <ion-label stacked>Já trabalhou com carteira assinada?</ion-label>
+    <ion-checkbox name="idc_trabalho_carteira" 
+    [(ngModel)]="model.idc_trabalho_carteira"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Há quanto tempo?</ion-label>
+    <ion-input type="number" name="tempo_trabalho_carteira_qtd" 
+    [(ngModel)]="model.tempo_trabalho_carteira_qtd"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Já trabalhou com carteira assinada?</ion-label>
+    <ion-checkbox name="idc_trabalho_carteira" 
+    [(ngModel)]="model.idc_trabalho_carteira"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Desenvolve alguma atividade atualmente?</ion-label>
+    <ion-checkbox name="idc_trabalha_atualmente" 
+    [(ngModel)]="model.idc_trabalha_atualmente"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Qual?</ion-label>
+    <ion-input type="text" name="desc_trabalho" 
+    [(ngModel)]="model.desc_trabalho"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Recebe algum tipo de remuneração?</ion-label>
+    <ion-input type="text" name="renda_atual" 
+    [(ngModel)]="model.renda_atual"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Como costuma gastar sua renda?</ion-label>
+    <ion-input type="text" name="gasto_renda" 
+    [(ngModel)]="model.gasto_renda"></ion-input>
+  </ion-item>
+
+  <p>Naturalidade do indivíduo</p>
+  <ion-item>
+    <ion-label stacked>Naturalidade</ion-label>
+    <ion-input type="text" name="municipio_origem" [(ngModel)]="model.municipio_origem"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Há quanto tempo reside em BH?</ion-label>
+    <ion-input type="number" name="tempo_resid_atual_qtd" 
+    [(ngModel)]="model.tempo_resid_atual_qtd"></ion-input>
+  </ion-item>
+
+
+  <p>Observações</p>
+  <ion-item>
+      <ion-input type="text" name="des_observacao" [(ngModel)]="model.des_observacao"></ion-input>
+  </ion-item>
+ 
+  </ion-list>
+ 
+  <button ion-button block (click)="save()">Salvar</button>
+ 
+
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-content>

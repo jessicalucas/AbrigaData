@@ -1,40 +1,34 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
-import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AtendenteProvider, Atendente } from '../../providers/atendente/atendente';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
-	pessoas: any[] = [];
-	onlyInactives: boolean = false;
-	searchText: string = null;
+export class HomePage { 
+	model: Atendente;
 
-	constructor(public navCtrl: NavController, private toast: ToastController, private pessoaProvider: PessoaProvider) { }
+	constructor(public navCtrl: NavController, public navParams: NavParams,
+    private toast: ToastController, private atendenteProvider: AtendenteProvider) { 
+
+			this.model = new Atendente();
+		}
 
 	ionViewDidEnter() {
-		this.getAllPessoas();
+		console.log('ionViewDidLoad HomePage');
 	}
-
-	getAllPessoas() {
-		this.pessoaProvider.getAll(this.searchText)
-		  .then((result: any[]) => {
-			this.pessoas = result;
+	
+	Menu() {
+		this.navCtrl.push('MenuPage');
+	}
+	
+	getAdmin() {
+		this.atendenteProvider.getAtendente(1)
+		  .then((result: Atendente) => {
+			this.model = result;
 		  });
 	}
-	
-	cadastroPessoa() {
-		this.navCtrl.push('PessoaPage');
-    }
-	
-	cadastroGrupoFamiliar() {
-		this.navCtrl.push('GrupoFamiliarPage');
-    }
-	
-	configuracao() {
-		this.navCtrl.push('ConfiguracaoPage');
-    }
 
     
 }

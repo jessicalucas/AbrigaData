@@ -9,12 +9,13 @@ export class AtendenteProvider {
   constructor(private dbProvider: DatabaseProvider) {  }
   
   public insert(atendente: Atendente) {
-    return this.dbProvider.getDB()
+    return this.dbProvider.getDB() 
       .then((db: SQLiteObject) => {
-        let sql = 'insert into Atendente (nome, login, senha) values (?, ?, ?)';
-        let data = [atendente.nome, atendente.login, atendente.senha];
+        let sql = 'insert into Atendente (nome, login, senha, email, regional) values (?, ?, ?)';
+        let data = [atendente.nome, atendente.login, atendente.senha, atendente.email, atendente.regional];
  
         return db.executeSql(sql, data)
+          .then((a: any) => console.log("Cadastro de atendente inserido"))
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));
@@ -23,8 +24,8 @@ export class AtendenteProvider {
   public update(atendente: Atendente) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'update Atendente set nome = ?, login = ?, senha = ? where cd_atendente = ?';
-        let data = [atendente.nome, atendente.login, atendente.senha, atendente.cd_atendente];
+        let sql = 'update Atendente set nome = ?, login = ?, senha = ?, email = ?, regional=? where cd_atendente = ?';
+        let data = [atendente.nome, atendente.login, atendente.senha, atendente.cd_atendente, atendente.email, atendente.regional];
  
         return db.executeSql(sql, data)
           .catch((e) => console.error(e));
@@ -44,7 +45,7 @@ export class AtendenteProvider {
       .catch((e) => console.error(e));
   }
   
-  public get(cd_atendente: number) {
+  public getAtendente(cd_atendente: number) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
         let sql = 'select * from Atendente where cd_atendente = ?';
@@ -59,6 +60,7 @@ export class AtendenteProvider {
               atendente.nome = item.nome;
               atendente.login = item.login;
               atendente.senha = item.senha;
+              atendente.email = item.email;
 
               return atendente;
             }
@@ -72,21 +74,13 @@ export class AtendenteProvider {
   public getLogin(login: string = null) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'SELECT * FROM Atendente where login = ?';
+        let sql = 'SELECT * FROM Atendente where login = ? limit 1';
         let data = [login]
  
         return db.executeSql(sql, data)
           .then((data: any) => {
-            if (data.rows.length > 0) {
-              let atendentes: any[] = [];
-              for (var i = 0; i < data.rows.length; i++) {
-                var atendente = data.rows.item(i);
-                atendentes.push(atendente);
-              }
+            let atendentes: any;
               return atendentes;
-            } else {
-              return [];
-            }
           })
           .catch((e) => console.error(e));
       })
@@ -115,7 +109,6 @@ export class AtendenteProvider {
       })
       .catch((e) => console.error(e));
   }
-
 }
 
 export class Atendente {
@@ -123,4 +116,6 @@ export class Atendente {
   nome: string;
   login: string;
   senha: string;
+  email: string;
+  regional: string;
 }

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title> 
+      Locais de atendimento
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding> 
+
+  <p>Busca por período</p>
+    <ion-item>
+      <ion-label stacked>Data inicial</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" name="dat_ini" 
+      min="2018" [(ngModel)]="dat_ini"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <ion-label stacked>Data final</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" name="dat_fin" 
+        min="2018" [(ngModel)]="dat_fin"></ion-datetime>
+      </ion-item>
+  
+    <ion-item>
+      <button ion-button block>Buscar</button>
+    </ion-item>
+
+  <div #map id="map"></div>
+
+  <!--<ion-card>
+    <div class="mapa">
+      <img src="{{ visitas.mapa }}">
+    </div>
+    <ion-item>
+      <h2 text-wrap>{{ visitas.nome }}</h2>
+    </ion-item>
+  </ion-card>-->
+   
+
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+
+
+</ion-content>

@@ -7,12 +7,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+import { Geolocation } from '@ionic-native/geolocation';
 import { SQLite } from '@ionic-native/sqlite'
 import { DatabaseProvider } from '../providers/database/database';
 import { AbrigadataProvider } from '../providers/abrigadata/abrigadata';
 import { PessoaProvider } from '../providers/pessoa/pessoa';
 import { GrupoFamiliarProvider } from '../providers/grupo-familiar/grupo-familiar';
 import { AtendenteProvider } from '../providers/atendente/atendente';
+import { AgendaProvider } from '../providers/agenda/agenda';
+import { AtendimentoProvider } from '../providers/atendimento/atendimento';
+import { LocalizacaoProvider } from '../providers/localizacao/localizacao';
 
 @NgModule({
   declarations: [
@@ -32,12 +36,16 @@ import { AtendenteProvider } from '../providers/atendente/atendente';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-	  SQLite,
+    SQLite,
+    Geolocation,
     DatabaseProvider,
     AbrigadataProvider,
     PessoaProvider,
     GrupoFamiliarProvider,
-    AtendenteProvider
+    AtendenteProvider,
+    AgendaProvider,
+    AtendimentoProvider,
+    LocalizacaoProvider
   ]
 })
 export class AppModule {}

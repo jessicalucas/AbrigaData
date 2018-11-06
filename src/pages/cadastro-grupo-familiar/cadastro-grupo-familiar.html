@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Cadastro Grupo Familiar 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<ion-list>
+ 
+  <ion-item>
+    <ion-label stacked>Nome</ion-label>
+    <ion-input type="text" name="nome" [(ngModel)]="model.nome"></ion-input>
+  </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Grau parentesco</ion-label>
+      <ion-input type="text" name="grau_parentesco" [(ngModel)]="model.grau_parentesco"></ion-input>
+    </ion-item>
+	
+	<ion-item>
+      <ion-label stacked>CPF</ion-label>
+      <ion-input type="number" name="cpf" [(ngModel)]="model.cpf"></ion-input>
+    </ion-item>
+ 
+  </ion-list>
+ 
+  <button ion-button block (click)="save()">Salvar</button>
+ 
+
+  <ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+</ion-content>

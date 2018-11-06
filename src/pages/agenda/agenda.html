@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Agenda
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+ 
+  <p>Buscar por data de abertura da agenda</p>
+  <ion-item>
+    <ion-label stacked>Data de abertura</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" name="dat_abertura" 
+    min="2018" [(ngModel)]="searchDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <button ion-button block (click)="getAll()">Buscar</button>
+  </ion-item>
+
+
+ <ion-list>
+    <ion-item-sliding *ngFor="let agendas of agenda">
+ 
+      <button ion-item (click)="editAgenda(agenda.cd_agenda)">
+        <h1>{{ agenda.dat_entrada }}</h1>
+      </button>
+ 
+      <ion-item-options side="left">
+        <button ion-button color="danger" (click)="removeAgenda(agenda)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+ 
+    </ion-item-sliding>
+  </ion-list>
+  
+  <ion-fab right bottom>
+    <button ion-fab color="light" (click)="addAgenda()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+ 
+ 
+  <ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+</ion-content>
+ 
