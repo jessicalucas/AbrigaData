@@ -118,4 +118,5 @@ export class Atendente {
   senha: string;
   email: string;
   regional: string;
+  nivel: string;
 }

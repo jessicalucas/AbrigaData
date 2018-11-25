@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { AtendimentoProvider, Atendimento } from '../../providers/atendimento/atendimento'
+import { AtendimentoProvider, Atendimento } from '../../providers/atendimento/atendimento';
+import { AgendaProvider, Agenda } from '../../providers/agenda/agenda';
+import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
 
 @IonicPage()
 @Component({
@@ -8,18 +10,31 @@ import { AtendimentoProvider, Atendimento } from '../../providers/atendimento/at
   templateUrl: 'cadastro-atendimento.html',
 })
 export class CadastroAtendimentoPage {
-	model: Atendimento;
+  model: Atendimento;
+  pessoa: Pessoa;
+  agenda: Agenda;
 
   constructor(
     public navCtrl: NavController, public navParams: NavParams,
-    private toast: ToastController, private atendimentoProvider: AtendimentoProvider) {
+    private toast: ToastController, private atendimentoProvider: AtendimentoProvider,
+    private pessoaProvider: PessoaProvider, private agendaProvider: AgendaProvider) {
  
-	this.model = new Atendimento();
+  this.model = new Atendimento();
+  this.pessoa = new Pessoa();
  
-    if (this.navParams.data.cd_atendimento) {
-      this.atendimentoProvider.get(this.navParams.data.atendimento)
+    if (this.navParams.data.cd_pessoa) {
+      this.pessoaProvider.get(this.navParams.data.pessoa)
         .then((result: any) => {
-          this.model = result;
+          this.pessoa = result;
+          this.model.cd_pessoa = this.navParams.data.cd_pessoa;
+        })
+    }
+
+    if (this.navParams.data.cd_agenda) {
+      this.agendaProvider.get(this.navParams.data.agenda)
+        .then((result: any) => {
+          this.agenda = result;
+          this.model.cd_agenda = this.navParams.data.cd_pessoa;
         })
     }
   
@@ -41,11 +56,11 @@ export class CadastroAtendimentoPage {
   }
  
   private saveAtendimento() {
-    /*if (this.model.nome) {
-      return this.pessoaProvider.update(this.model);
-    } else {*/
+    if (this.model.cd_atendimento) {
+      return this.atendimentoProvider.update(this.model);
+    } else {
       return this.atendimentoProvider.insert(this.model);
-    //}
+    }
   }
 
 }

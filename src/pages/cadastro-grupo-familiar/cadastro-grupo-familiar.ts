@@ -9,7 +9,7 @@ import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
   templateUrl: 'cadastro-grupo-familiar.html',
 })
 export class CadastroGrupoFamiliarPage {
-  model: GrupoFamiliar;
+  model: GrupoFamiliar; 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private toast: ToastController,
     private GrupoFamiliarProvider: GrupoFamiliarProvider, private pessoaProvider: PessoaProvider) {
@@ -46,5 +46,12 @@ export class CadastroGrupoFamiliarPage {
       return this.GrupoFamiliarProvider.insert(this.model);
     }
   }
+
+  removeGrupoFamiliar(grupoFamiliar: GrupoFamiliar) {
+		this.GrupoFamiliarProvider.remove(grupoFamiliar.cd_grupo)
+		  .then(() => {
+				this.toast.create({ message: 'Membro do grupo familiar removido.', duration: 3000, position: 'botton' }).present();
+		  })
+	}
 
 }

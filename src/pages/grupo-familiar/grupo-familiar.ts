@@ -16,20 +16,22 @@ export class GrupoFamiliarPage {
 	onlyInactives: boolean = false;
   searchText: string = null;
   
-  constructor(public navCtrl: NavController, private toast: ToastController, 
+  constructor(public navCtrl: NavController, private toast: ToastController,public navParams: NavParams, 
     private GrupoFamiliarProvider: GrupoFamiliarProvider, private pessoaProvider: PessoaProvider) {
+
+		this.model = new GrupoFamiliar();
+ 
+    if (this.navParams.data.cd_pessoa) {
+      this.pessoaProvider.get(this.navParams.data.pessoa)
+        .then((result: any) => {
+          this.modelPessoa = result;
+        })
+    }
   }
 
   ionViewDidEnter() {
-		this.getAllPessoas();
+		this.getAllIntegrantes();
 	}
-
-	getAllPessoas() {
-		this.pessoaProvider.getAll(this.searchText)
-		  .then((result: any[]) => {
-			this.pessoas = result;
-		  });
-  }
 
   getAllIntegrantes(){
     this.GrupoFamiliarProvider.getAll(this.modelPessoa.cd_pessoa)
@@ -44,12 +46,8 @@ export class GrupoFamiliarPage {
 			this.model = result;
 		  });
   }
-  
-  addGrupoFamiliar(cd_pessoa: number) {
-		this.navCtrl.push('CadastroGrupoFamiliarPage',{ cd_pessoa: cd_pessoa });
-	}
 	
-	addGrupoaux() {
+	addGrupoFamiliar() {
 		this.navCtrl.push('CadastroGrupoFamiliarPage',{ });
   }
 
@@ -67,8 +65,5 @@ export class GrupoFamiliarPage {
 		  })
 	}
 	
-	filterPessoas(ev: any) {
-		this.getAllPessoas();
-	}
 
 }

@@ -18,12 +18,12 @@ export class GrupoFamiliarProvider {
         .then((saida: any) =>{
           
           if (saida.rows.item(0).max == null) {
-            sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
-            data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
+            sql = 'insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
+            data = [0, grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
           }
           else {
-            sql = 'insert into GrupoFamiliar (cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
-            data = [grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
+            sql = 'insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)';
+            data = [saida.rows.item(0).max+1,grupo.cd_pessoa, grupo.grau_parentesco, grupo.nome, grupo.cpf];
           }
         
           return db.executeSql(sql, data)

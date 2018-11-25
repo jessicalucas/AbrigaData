@@ -4,7 +4,7 @@ import { AtendimentoProvider, Atendimento } from '../../providers/atendimento/at
 import { AgendaProvider, Agenda } from '../../providers/agenda/agenda';
 import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
 
-@IonicPage()
+@IonicPage() 
 @Component({
   selector: 'page-atendimento',
   templateUrl: 'atendimento.html',
@@ -34,13 +34,6 @@ export class AtendimentoPage {
 			this.pessoas = result;
 		  });
   }
- 
-  getAllAgendas(){
-    this.agendaProvider.getAll(this.modelAgenda.dat_abertura)
-    .then((result: any[]) => {
-			this.agendas = result;
-		  });
-  }
 
   getAtentimento(){
     this.AtendimentoProvider.get(this.model.cd_atendimento)
@@ -50,12 +43,12 @@ export class AtendimentoPage {
   }
   
   addAtendimento(cd_pessoa: number) {
-		this.navCtrl.push('CadastroAtendimentoPage',{ cd_pessoa: cd_pessoa });
+		this.navCtrl.push('SelAgendaPage',{ cd_pessoa: cd_pessoa });
   }
 
   addAtendimentoaux() {
-		this.navCtrl.push('CadastroAtendimentoPage');
-  }
+		this.navCtrl.push('SelAgendaPage');
+  } 
 
   editAtendimento(cd_atendimento: number) {
 		this.navCtrl.push('CadastroAtendimentoPage', { cd_atendimento: cd_atendimento });
@@ -75,8 +68,5 @@ export class AtendimentoPage {
 		this.getAllPessoas();
   }
   
-  filterAgenda(ev: any) {
-		this.getAllAgendas();
-	}
 
 }

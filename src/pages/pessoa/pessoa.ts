@@ -4,7 +4,7 @@ import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
 
 
 @IonicPage() 
-@Component({
+@Component({ 
   selector: 'page-pessoa',
   templateUrl: 'pessoa.html',
 })
@@ -26,24 +26,18 @@ export class PessoaPage {
 		  .then((result: any[]) => {
 			this.pessoas = result;
 		  });
-	}
+	} 
 	
 	addPessoa() {
 		this.navCtrl.push('CadastroPessoaPage');
     }
 
-  editPessoa(cd_pessoa: number) {
-		this.navCtrl.push('CadastroPessoaPage', { cd_pessoa: cd_pessoa });
-  }
-	
-	removePessoa(pessoa: Pessoa) {
-		this.pessoaProvider.remove(pessoa.cd_pessoa)
-		  .then(() => {
-			// Removendo do array de produtos
-			var index = this.pessoas.indexOf(pessoa);
-			this.pessoas.splice(index, 1);
-			this.toast.create({ message: 'Pessoa removida.', duration: 3000, position: 'botton' }).present();
-		  })
+	editPessoa(cd_pessoa: number) {
+			this.navCtrl.push('EditaPessoaPage', { cd_pessoa: cd_pessoa });
+	}
+
+	editPessoaaux() {
+		this.navCtrl.push('EditaPessoaPage');
 	}
 	
 	filterPessoas(ev: any) {

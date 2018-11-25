@@ -1,18 +1,29 @@
-<!--
-  Generated template for the DigitalPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
+    <ion-navbar>
+      <ion-title>
+        Cadastro de Impressão Digital 
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+  <ion-list>
+    
+    <h2>{{ model.nome }}</h2>
+    <p>{{ model.nome_social }}</p>
+    <p>{{ model.cpf }}</p>
 
-  <ion-navbar>
-    <ion-title>digital</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+    <div text-center>
+      <p>Pressione para leitura</p>
+      <ion-img style="width: 248px; height: 337px;" src="assets/imgs/fingerprint.png"></ion-img>
+    </div>
+   
+    <button ion-button block (click)="save()">Salvar</button>
+  
+    <ion-footer>
+    <ion-toolbar>
+      <p>© 2020 AbrigaData</p>
+    </ion-toolbar>
+  </ion-footer>
+  </ion-content>
+  

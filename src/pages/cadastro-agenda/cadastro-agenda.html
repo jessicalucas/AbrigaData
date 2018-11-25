@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content padding>
-<ion-list> 
+<ion-list>  
   
   <ion-item>
     <ion-label stacked>Data de Abertura</ion-label>
@@ -26,8 +26,50 @@
 
   <ion-item>
     <ion-label stacked>Regional</ion-label>
-    <ion-input type="text" name="regional" [(ngModel)]="model.regional"></ion-input>
-</ion-item>
+    <ion-input type="text" name="regional" [(ngModel)]="localizacao.regional"></ion-input>
+  </ion-item>
+
+  <p>Localização</p>
+
+  <ion-item>
+    <ion-label stacked>Nome</ion-label>
+    <ion-input type="text" name="nome" [(ngModel)]="localizacao.nome"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Logradouro</ion-label>
+    <ion-input type="text" name="logradouro" [(ngModel)]="localizacao.logradouro"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Número</ion-label>
+    <ion-input type="text" name="numero" [(ngModel)]="localizacao.numero"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Complemento</ion-label>
+    <ion-input type="text" name="Complemento" [(ngModel)]="localizacao.complemento"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Bairro</ion-label>
+    <ion-input type="text" name="bairro" [(ngModel)]="localizacao.bairro"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>CEP</ion-label>
+    <ion-input type="text" name="cep" [(ngModel)]="localizacao.cep"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Município</ion-label>
+    <ion-input type="text" name="municipio" [(ngModel)]="localizacao.municipio"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Estado</ion-label>
+    <ion-input type="text" name="estado" [(ngModel)]="localizacao.estado"></ion-input>
+  </ion-item>
  
   </ion-list>
  

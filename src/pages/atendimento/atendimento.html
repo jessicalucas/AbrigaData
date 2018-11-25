@@ -13,11 +13,11 @@
   
     <h1>Lista de pessoas cadastradas:</h1>
     <p>Clique para inserir novo atendimento</p>
-    <ion-list>
+    <ion-list> 
       <ion-item-sliding *ngFor="let pessoa of pessoas">
    
         <button ion-item (click)="addAtendimento(pessoa.cd_pessoa)">
-          <h1>{{ pessoa.nome }}</h1>
+          <h1>{{ pessoa.nome }}</h1> 
           <h2>{{ pessoa.nome_social }}</h2>
           <h2>{{ pessoa.cpf }}</h2>
           <h2>{{ pessoa.data_nascimento | date:'dd/MM/yyyy' }}</h2>

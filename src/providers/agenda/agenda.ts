@@ -19,12 +19,12 @@ export class AgendaProvider {
         .then((saida: any) =>{
           
           if (saida.rows.item(0).max == null) {
-            sql = 'insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional) values (?, ?, ?, ?, ?)';
-            data = [1, agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional];
+            sql = 'insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?, ?)';
+            data = [1, agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional, agenda.cd_localizacao];
           }
           else {
-            sql = 'insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional) values (?, ?, ?, ?, ?)';
-            data = [saida.rows.item(0).max+1,agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional];
+            sql = 'insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?, ?)';
+            data = [saida.rows.item(0).max+1,agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional, agenda.cd_localizacao];
           }
 
           return db.executeSql(sql, data)
@@ -38,8 +38,8 @@ export class AgendaProvider {
   public update(agenda: Agenda) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'update Agenda set dat_abertura = ?, dat_fechamento = ?, cd_atendente = ?, regional = ? where cd_agenda = ?';
-        let data = [agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional];
+        let sql = 'update Agenda set dat_abertura = ?, dat_fechamento = ?, cd_atendente = ?, regional = ?, cd_localizacao =? where cd_agenda = ?';
+        let data = [agenda.dat_abertura, agenda.dat_fechamento, agenda.cd_atendente, agenda.regional,agenda.cd_localizacao, agenda.cd_agenda];
  
         return db.executeSql(sql, data)
           .catch((e) => console.error(e));
@@ -75,6 +75,7 @@ export class AgendaProvider {
               agenda.dat_fechamento = item.dat_fechamento;
               agenda.cd_atendente = item.cd_atendente;
               agenda.regional = item.regional
+              agenda.cd_localizacao = item.cd_localizacao
  
               return agenda;
             }
@@ -117,4 +118,5 @@ export class Agenda {
   dat_fechamento: Date;
   cd_atendente: number;
   regional: string;
+  cd_localizacao: number;
 }

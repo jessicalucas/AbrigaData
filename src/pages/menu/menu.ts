@@ -9,7 +9,7 @@ import { PessoaProvider, Pessoa } from '../../providers/pessoa/pessoa';
   templateUrl: 'menu.html',
 })
 export class MenuPage {
-
+ 
   pessoas: any[] = [];
 	onlyInactives: boolean = false;
 	searchText: string = null;
@@ -31,10 +31,6 @@ export class MenuPage {
 	cadastroPessoa() {
 		this.navCtrl.push('PessoaPage');
     }
-	
-	cadastroGrupoFamiliar() {
-		this.navCtrl.push('GrupoFamiliarPage');
-	}
 
 	cadastroAtendimento() {
 		this.navCtrl.push('AtendimentoPage');
@@ -44,8 +40,12 @@ export class MenuPage {
 		this.navCtrl.push('AgendaPage');
 	}
 	
-	cadastroMapa() {
+	Mapa() {
 		this.navCtrl.push('MapaPage');
+	}
+	
+	Relatorios() {
+		this.navCtrl.push('RelatoriosPage');
   }
 	
 	configuracao() {

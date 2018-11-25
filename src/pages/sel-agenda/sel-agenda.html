@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title> 
+        Atentimento
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+   
+  <ion-content padding>
+    
+    <p>Busca agenda cadastrada:</p>
+    <ion-item>
+        <ion-label stacked>Data de abertura</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" name="searchDate" min="2018" 
+        [(ngModel)]="model.searchDate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <button ion-button block (click)="getAll()">Buscar</button>
+    </ion-item>
+  
+    <h1>Lista de agendas cadastradas:</h1>
+    <p>Clique para inserir novo atendimento</p>
+    <ion-list> 
+      <ion-item-sliding *ngFor="let agenda of agendas">
+   
+        <button ion-item (click)="addAtendimento(pessoa.cd_pessoa, agenda.cd_agenda)">
+          <h1>{{ agenda.dat_abertura }}</h1>
+          <h2>{{ agenda.regional }}</h2>
+        </button>
+   
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab right bottom>
+      <button ion-fab color="light" (click)="addAtendimentoaux()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+    
+    <ion-footer>
+    <ion-toolbar>
+      <p>© 2020 AbrigaData</p>
+    </ion-toolbar>
+  </ion-footer>
+  
+  </ion-content>
+  

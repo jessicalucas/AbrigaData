@@ -6,6 +6,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 @Injectable()
 export class DatabaseProvider {
 
+	carga = new CargaInicial();
+
   constructor(private sqlite: SQLite) { }
     
 	public getDB() {
@@ -20,12 +22,12 @@ export class DatabaseProvider {
     return this.getDB()
       .then((db: SQLiteObject) => {
  
-				this.dropTables(db);
+		this.dropTables(db);
         // Criando as tabelas
-				this.createTables(db);
+		this.createTables(db);
  
         // Inserindo dados padrão
-        this.insertDefaultItems(db);
+        this.carregaGeral(db);
  
       })
 			.catch(e => console.log(e));
@@ -83,38 +85,124 @@ export class DatabaseProvider {
 					 "foreign key (cd_localizacao) references Localizacao (cd_localizacao),"+
 					 "foreign key (cd_pessoa) references Pessoa (cd_pessoa),"+
 					 "foreign key (cd_atendente) references Atendente(cd_atendente),"+
-					 "foreign key (cd_agenda) references Agenda(cd_agenda));"],
+					 "foreign key (cd_agenda) references Agenda(cd_agenda));"] ,
 								
 					["create table IF NOT EXISTS Agenda "+
-					 "(cd_agenda interger primary key,cd_atendente interger, cd_atendimento interger,"+
-					 "Data_Abertura text,Data_Fechamento text, Regional text"+
+					 "(cd_agenda interger primary key,cd_atendente interger, cd_localizacao interger,"+
+					 "Dat_Abertura text,Dat_Fechamento text, Regional text,"+
 					 "foreign key (cd_atendente) references Atendente(cd_atendente),"+
-					 "foreign key (cd_atendimento) references Atendimento (cd_atendimento));"],
+					 "foreign key (cd_localizacao) references Localizacao (cd_localizacao));"],
 				])
 		  .then(() => console.log('Tabelas criadas'))
 		  .catch(e => console.error('Erro ao criar as tabelas', e));
 	}
 	
 	private insertDefaultItems(db: SQLiteObject) {
-		db.executeSql('select COUNT(cd_atendente) as qtd from Atendente', [])
+		db.executeSql("select COUNT("+ this.carga.chave +") as qtd from " + this.carga.tabela, null)
 		.then((data: any) => {
-		  //Se não existe nenhum registro
 		  if (data.rows.item(0).qtd == 0) {
-	 
-			// Criando as tabelas
-			db.sqlBatch([
-				[['insert into Atendente values (?,?,?,?)'], [1, 'Administrador', 'admin','admin']],
-				[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[1,'barbara','barbara','36784264','1993-06-19','723918']]
-			])
-			  .then(() => console.log('Dados padrões incluídos'))
-			  .catch(e => console.error('Erro ao incluir dados padrões', e));
-	 
+				db.sqlBatch(this.carga.carga)
+					.then(() => console.log("Tabela "+ this.carga.tabela +" carregada"))
+					.catch(e => console.error("Erro ao carregar "+ this.carga.tabela, e));
 			}
-			else console.log("Dados padrões já carregados");
+			else console.log(this.carga.tabela + ": dados padrões já carregados");
 		})
-		.catch(e => console.error('Erro ao validar atendentes', e));
-	}
-	
- 
+		.catch(e => console.error("Erro ao validar "+ this.carga.tabela, e));
 
+		return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+	private carregaGeral(db: SQLiteObject){
+		this.carregaLocalizacao();
+		this.insertDefaultItems(db)
+		.then(() => { 
+			this.carregaAtendente();
+			this.insertDefaultItems(db)
+			.then(() => { 
+				this.carregaPessoa();
+				this.insertDefaultItems(db)
+				.then(() => {
+					this.carregaGrupoFamiliar();
+					this.insertDefaultItems(db)
+					.then(() =>{
+						this.carregaAgenda();
+						this.insertDefaultItems(db);
+					});
+				});
+			});
+		});
+	}
+
+	private carregaAtendente(){
+		var tabela = 'Atendente';
+		var chave = 'cd_atendente';
+		var carga = 	[['insert into Atendente values (?,?,?,?)'], [1, 'Administrador', 'admin','admin']];
+		
+		this.carga.setCarga(tabela,chave,carga);
+		return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+	private carregaPessoa(){
+		var tabela = 'Pessoa';
+		var chave = 'cd_pessoa';
+		var carga = 	[[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[1,'Barbara','Barbara','01080255001','1993-06-19','723918']],
+		[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[2,'Antônio','Antônio','42908710030','1967-12-14','483927']],
+		[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[3,'Maria','Maria','85098490057','1980-08-05','343535']],
+		[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[4,'José','José','25275318065','1978-09-17','23424']],
+		[['insert into Pessoa (cd_pessoa, Nome, Nome_social, CPF, Data_Nascimento, rg) values (?,?,?,?,?,?)'],[5,'João','João','54526879045','1983-01-09','423432']]];
+		
+		this.carga.setCarga(tabela,chave,carga);
+		//return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+	private carregaLocalizacao(){
+		var tabela = 'Localizacao';
+		var chave = 'cd_localizacao';
+		var carga = [[['insert into Localizacao (cd_localizacao,nome, logradouro, numero, complemento, bairro, cep, municipio, estado) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'],[1,'Caetés 1050','Rua dos Caetés', '1050','','Centro', '30120084', 'Belo Horizonte', 'MG']],
+		[['insert into Localizacao (cd_localizacao,nome, logradouro, numero, complemento, bairro, cep, municipio, estado) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'],[2,'Restaurante Popular I','Av. do Contorno', '11484','','Barro Preto', '30110078', 'Belo Horizonte', 'MG']],
+		[['insert into Localizacao (cd_localizacao,nome, logradouro, numero, complemento, bairro, cep, municipio, estado) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'],[3,'Oiapoque 216','Av. Oiapoque', '216','','Centro', '30111070', 'Belo Horizonte', 'MG']],
+		[['insert into Localizacao (cd_localizacao,nome, logradouro, numero, complemento, bairro, cep, municipio, estado) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'],[4,'Hotel Cristal','R. Vinte Um de Abril', '157','','Centro', '30111030', 'Belo Horizonte', 'MG']]];
+		
+		this.carga.setCarga(tabela,chave,carga);
+		//return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+	private carregaGrupoFamiliar(){
+		var tabela = 'GrupoFamiliar';
+		var chave = 'cd_grupo';
+		var carga = [[['insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)'],[1,1,'Irmão','Augusto','84948019020']],
+	  [['insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)'],[2,2,'Irmã','Tereza','29645198038']],
+	  [['insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)'],[3,2,'Côjuge','Ana','21460732090']],
+	  [['insert into GrupoFamiliar (cd_grupo, cd_pessoa, grau_parentesco, nome, cpf) values (?, ?, ?, ?)'],[4,4,'Filho','Pedro','26735954068']]];
+	
+		this.carga.setCarga(tabela,chave,carga);
+		//return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+	private carregaAgenda(){
+		var tabela = 'Agenda';
+		var chave = 'cd_agenda';
+		var carga = [[['insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?,?)'],[1,'2018-11-20','2018-11-20',1,'Centro-sul',1]]]
+		//[['insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?,?)'],[6,'2018-11-21','2018-11-21',1,'Centro-sul',2]],
+	//[['insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?,?)'],[7,'2018-11-22','2018-11-22',1,'Centro-sul',3]],
+	//	[['insert into Agenda (cd_agenda,dat_abertura, dat_fechamento, cd_atendente, regional, cd_localizacao) values (?, ?, ?, ?, ?,?)'],[8,'2018-11-23','2018-11-23',1,'Centro-sul',4]]];
+			 
+		this.carga.setCarga(tabela,chave,carga);
+		//return new Promise((resolve,reject)=>{ setTimeout(resolve, 0); });
+	}
+
+}
+
+export class CargaInicial{
+	tabela: string;
+	chave: string;
+	carga: any;
+
+	constructor(){}
+
+	public setCarga(tabela: string, chave: string, carga: any){
+		this.tabela = tabela;
+		this.chave = chave;
+		this.carga = carga;
+	}
 }

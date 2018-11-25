@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Cadastro Pessoa 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding> 
+<ion-list>
+  
+    <ion-item>
+      <ion-label stacked>Nome</ion-label>
+      <p>{{model.nome}}</p>
+    </ion-item>
+ 
+    <ion-item>
+      <ion-label stacked>Nome Social</ion-label>
+      <p>{{model.nome_social}}</p>
+    </ion-item>
+	
+	<ion-item>
+      <ion-label stacked>CPF</ion-label>
+      <p>{{model.cpf}}</p>
+    </ion-item>
+ 
+    <ion-item>
+      <ion-label stacked>Data de Nascimento</ion-label>
+      <p>{{model.data_nascimento}}</p>
+    </ion-item>
+	 
+	<ion-item>
+      <ion-label stacked>RG</ion-label>
+      <p>{{model.rg}}</p>
+    </ion-item>
+  
+  
+  </ion-list>
+ 
+  <button ion-button block (click)="foto(model.cd_pessoa)">Incluir Fotos</button>
+  <button ion-button block (click)="digital(model.cd_pessoa)">Coletar Impressão digital</button>
+  <button ion-button block (click)="cadastroGrupoFamiliar(model.cd_pessoa)">Incluir Grupo Familiar</button>
+  <button ion-button block (click)="editPessoa(model.cd_pessoa)">Editar Cadastro</button>
+  <button ion-button block (click)="removePessoa(model.cd_pessoa)">Excluir Cadastro</button>
+ 
+
+  <ion-footer>
+  <ion-toolbar>
+    <p>© 2020 AbrigaData</p>
+  </ion-toolbar>
+</ion-footer>
+</ion-content>

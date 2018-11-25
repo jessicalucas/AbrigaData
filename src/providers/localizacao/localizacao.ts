@@ -92,16 +92,39 @@ export class LocalizacaoProvider {
       .catch((e) => console.error(e));
   }
   
-  public getAll(nome: string = null) {
+  public getAll() {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'SELECT * FROM Localizacao where nome like ?';
-        let data = ['%' + nome + '%']
+        let sql = 'SELECT * FROM Localizacao';
+ 
+        return db.executeSql(sql, null)
+          .then((data: any) => {
+            if (data.rows.length > 0) {
+              let localizacoes: Localizacao[] = [];
+              for (var i = 0; i < data.rows.length; i++) {
+                var localizacao = data.rows.item(i);
+                localizacoes.push(localizacao);
+              }
+              return localizacoes;
+            } else {
+              return [];
+            }
+          })
+          .catch((e) => console.error(e));
+      })
+      .catch((e) => console.error(e));
+  }
+
+  public getPorData(dat_ini: string = null, dat_fin: string = null) {
+    return this.dbProvider.getDB()
+      .then((db: SQLiteObject) => {
+        let sql = 'SELECT a.* FROM Localizacao a join Agenda b on a.cd_localizacao = b.cd_localizacao where b.dat_abertura between ? and ?';
+        let data = [dat_ini, dat_fin]
  
         return db.executeSql(sql, data)
           .then((data: any) => {
             if (data.rows.length > 0) {
-              let localizacoes: any[] = [];
+              let localizacoes: Localizacao[] = []; 
               for (var i = 0; i < data.rows.length; i++) {
                 var localizacao = data.rows.item(i);
                 localizacoes.push(localizacao);
@@ -131,7 +154,15 @@ export class Localizacao {
   mapa: string;
 
   constructor() {
-    
+    this.nome = 'Inicial';
+      this.logradouro = 'Rua dos guaranis';
+      this.numero = '52';
+      this.complemento = '';
+      this.bairro = 'Centro';
+      this.cep = '30000000';
+      this.municipio = 'Belo Horizonte';
+      this.estado = 'MG';
+    this.mapa = this.getMapa();
   }
 
   public setLocalizacao (nome: string, logradouro: string, numero: string, complemento: string,
